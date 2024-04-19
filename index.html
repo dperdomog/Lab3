@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problemas de lógica matemática</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Lab 3 - Problemas de Matematica</h1>
+  <div>
+    <label for="palindromeInput">Ingrese un número para verificar si es un palíndromo de doble base:</label>
+    <input type="text" id="palindromeInput">
+    <button onclick="checkPalindrome()">Verificar</button>
+    <p id="palindromeResult"></p>
+  </div>
+
+  <div>
+    <label for="charCountInput">Ingrese una cadena para obtener la cantidad de caracteres:</label>
+    <input type="text" id="charCountInput">
+    <button onclick="countCharacters()">Contar</button>
+    <p id="charCountResult"></p>
+  </div>
+
+  <div>
+    <label for="yearInput">Ingrese un año para verificar si es bisiesto:</label>
+    <input type="text" id="yearInput">
+    <button onclick="checkLeapYear()">Verificar</button>
+    <p id="leapYearResult"></p>
+  </div>
+
+  <div>
+    <label for="primeSumInput">Ingrese un número para obtener la sumatoria de números primos debajo de él:</label>
+    <input type="number" id="primeSumInput">
+    <button onclick="sumOfPrimes()">Calcular</button>
+    <p id="primeSumResult"></p>
+  </div>
+
+  <script>
+    function isDoubleBasePalindrome(number) {
+      const decimalString = number.toString();
+      const binaryString = decimalString.toString(2);
+      return decimalString === decimalString.split('').reverse().join('') &&
+             binaryString === binaryString.split('').reverse().join('');
+    }
+
+    function countCharacters(str) {
+      const inputStr = document.getElementById('charCountInput').value;
+      const charCount = {};
+
+      for (let char of inputStr) {
+        charCount[char] = (charCount[char] || 0) + 1;
+      }
+
+      let result = '';
+      for (let char in charCount) {
+        result += `${charCount[char]} ${char}, `;
+      }
+      result = result.slice(0, -2); 
+      document.getElementById('charCountResult').innerText = result;
+    }
+
+    function isLeapYear(year) {
+      return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    }
+
+    function sumOfPrimes(n) {
+      const inputNumber = parseInt(document.getElementById('primeSumInput').value);
+      let sum = 0;
+
+      function isPrime(num) {
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) return false;
+        let i = 5;
+        while (i * i <= num) {
+          if (num % i === 0 || num % (i + 2) === 0) return false;
+          i += 6;
+        }
+        return true;
+      }
+
+      for (let i = 2; i < inputNumber; i++) {
+        if (isPrime(i)) {
+          sum += i;
+        }
+      }
+
+      document.getElementById('primeSumResult').innerText = sum;
+    }
+
+    function checkPalindrome() {
+      const inputNumber = parseInt(document.getElementById('palindromeInput').value);
+      const result = isDoubleBasePalindrome(inputNumber) ? 'Es un palíndromo de doble base.' : 'No es un palíndromo de doble base.';
+      document.getElementById('palindromeResult').innerText = result;
+    }
+
+    function checkLeapYear() {
+      const inputYear = parseInt(document.getElementById('yearInput').value);
+      const result = isLeapYear(inputYear) ? 'Es un año bisiesto.' : 'No es un año bisiesto.';
+      document.getElementById('leapYearResult').innerText = result;
+    }
+  </script>
+</body>
+</html>
